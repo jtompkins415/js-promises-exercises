@@ -26,12 +26,26 @@ shuffledDeck
     console.log(`${resp3.data.cards[0].value} of ${resp3.data.cards[0].suit}`)
 })
 
-let newDeck2 = new Promise((resolve, reject) => {
-    resolve(resp = axios.get(`${baseURL}/new/`))
-    reject("NO GO AMIGO!")
-})
+//DRAW CARDS APP
 
-newDeck2
-.then(resp => {
-    
-})
+let deckId = null;
+let $button = $("#card-button");
+let $deckBase = $('.deck-base');
+
+
+$.getJSON(`${baseURL}/new/shuffle`).then(data => {deckId = data.deck_id;
+$button.show()
+});
+
+
+$button.on('click', () => {
+    $.getJSON(`${baseURL}/${deckId}/draw/`).then(data => {
+        let cardImg = data.cards[0].image;
+        $deckBase.append($('<img>', {
+            src: cardImg,
+        })
+        );
+        if (data.remaining === 0) $button.remove();
+    });
+});
+
