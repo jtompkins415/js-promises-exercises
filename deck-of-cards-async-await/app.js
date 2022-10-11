@@ -20,10 +20,6 @@ class CardDeck {
         
     }
 
-    async shuffleDeck() {
-        return await axios.get(`${baseURL}/${this.deck_id}/shuffle`)
-    }
-
     async drawMultipleCards(){
         let res = await Promise.all([
             axios.get(`${baseURL}/${this.deck_id}/draw/?count=1`),
